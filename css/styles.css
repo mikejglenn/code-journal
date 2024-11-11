@@ -15,12 +15,34 @@ img {
   width: 100%;
 }
 
+label {
+  padding-bottom: 1rem;
+}
+
+input {
+  padding: 0.3rem 0;
+  margin: 1rem 0 2rem;
+}
+
 input,
 textarea {
   width: 100%;
 }
 
+textarea {
+  margin: 1rem 0;
+  min-height: 6rem;
+}
+
 .button-row .column-full {
   display: flex;
   justify-content: flex-end;
+}
+
+button {
+  text-transform: uppercase;
+  background-color: #4c2474;
+  color: #fff;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
 }
