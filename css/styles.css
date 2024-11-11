@@ -10,3 +10,13 @@ header {
 h2 {
   font-size: 2em;
 }
+
+input,
+textarea {
+  width: 100%;
+}
+
+.button-row .column-full {
+  display: flex;
+  justify-content: flex-end;
+}
