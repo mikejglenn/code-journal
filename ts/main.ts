@@ -29,4 +29,5 @@ $entryForm.addEventListener('submit', (event: Event) => {
   data.entries.unshift(entryObj);
   $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
+  writeData();
 });
