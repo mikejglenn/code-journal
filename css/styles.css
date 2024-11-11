@@ -11,6 +11,10 @@ h2 {
   font-size: 2em;
 }
 
+img {
+  width: 100%;
+}
+
 input,
 textarea {
   width: 100%;
