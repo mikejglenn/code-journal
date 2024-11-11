@@ -26,8 +26,33 @@
       </div>
     </header>
     <main class="container">
-      <h2>New Entry</h2>
-      <div data-view="entry-form"></div>
+      <div class="row">
+        <div class="column-full">
+          <h2>New Entry</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div data-view="entry-form">
+          <form>
+            <div class="column-half">
+              <img src="" alt="placeholder" />
+            </div>
+            <div class="column-half">
+              <label>Title</label>
+              <input />
+              <label>Photo URL</label>
+              <input />
+            </div>
+            <div class="column-full">
+              <label>Notes</label>
+              <textarea></textarea>
+            </div>
+            <div class="column-full">
+              <button>SAVE</button>
+            </div>
+          </form>
+        </div>
+      </div>
       <div data-view="entries" class="hidden"></div>
     </main>
     <script src="js/data.js"></script>
