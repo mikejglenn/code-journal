@@ -4,8 +4,8 @@ interface FormElements extends HTMLFormControlsCollection {
   notes: HTMLTextAreaElement;
 }
 
-const $photoPreview = document.querySelector('#photo-preview');
-const $photoUrl = document.querySelector('#photo-url');
+const $photoPreview = document.querySelector('#photo_preview');
+const $photoUrl = document.querySelector('#photo_url');
 const $entryForm = document.querySelector('form') as HTMLFormElement;
 if (!$photoUrl || !$photoPreview || !$entryForm) {
   throw new Error('The $photoPreview or $photoUrl or $entryForm query failed');

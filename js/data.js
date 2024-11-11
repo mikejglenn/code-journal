@@ -1,11 +1,10 @@
 'use strict';
-/* exported data, writeDataLS */
-const data = readDataLS();
-function writeDataLS() {
+const data = readData();
+function writeData() {
   const dataJSON = JSON.stringify(data);
   localStorage.setItem('data-storage', dataJSON);
 }
-function readDataLS() {
+function readData() {
   const dataJSON = localStorage.getItem('data-storage');
   if (dataJSON !== null) {
     return JSON.parse(dataJSON);
