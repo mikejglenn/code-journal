@@ -9,20 +9,20 @@ const $photoUrl = document.querySelector('#photo_url');
 const $entryForm = document.querySelector('form') as HTMLFormElement;
 const $entriesUl = document.querySelector('ul');
 const $noEntriesMessage = document.querySelector('#no-entries');
-const $entryFormDiv = document.querySelector('[data-view="entry-form"]');
-const $entriesDiv = document.querySelector('[data-view="entries"]');
+const $entryFormView = document.querySelector('[data-view="entry-form"]');
+const $entriesView = document.querySelector('[data-view="entries"]');
 if (
   !$photoUrl ||
   !$photoPreview ||
   !$entryForm ||
   !$entriesUl ||
   !$noEntriesMessage ||
-  !$entryFormDiv ||
-  !$entriesDiv
+  !$entryFormView ||
+  !$entriesView
 ) {
   throw new Error(
     `The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
-     $entryFormDiv or $entriesDiv query failed`,
+     $entryFormView or $entriesView query failed`,
   );
 }
 
@@ -61,8 +61,14 @@ function toggleNoEntries(): void {
 }
 
 function viewSwap(viewName: string): void {
-  // entry-form
-  // entries
+  if (viewName === 'entry-form') {
+    $entriesView?.classList.add('hidden');
+    $entryFormView?.classList.remove('hidden');
+  }
+  if (viewName === 'entries') {
+    $entryFormView?.classList.add('hidden');
+    $entriesView?.classList.remove('hidden');
+  }
   data.view = viewName;
 }
 
