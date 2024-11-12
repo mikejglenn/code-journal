@@ -62,11 +62,11 @@ function renderEntry(entry: Entry): HTMLElement {
 
 function toggleNoEntries(): void {
   if (data.entries.length === 0) {
-    $noEntriesMessage?.classList.add('hidden');
+    $noEntriesMessage?.classList.remove('hidden');
     return;
   }
   if (data.entries.length > 0) {
-    $noEntriesMessage?.classList.remove('hidden');
+    $noEntriesMessage?.classList.add('hidden');
   }
 }
 
@@ -103,7 +103,7 @@ $entryForm.addEventListener('submit', (event: Event) => {
   $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
   writeData();
-  $entriesUl.appendChild(renderEntry(entryObj));
+  $entriesUl.insertBefore(renderEntry(entryObj), $entriesUl.firstChild);
   viewSwap('entries');
   if (data.entries.length > 0) {
     toggleNoEntries();

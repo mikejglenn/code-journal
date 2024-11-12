@@ -44,11 +44,11 @@ function renderEntry(entry) {
 }
 function toggleNoEntries() {
   if (data.entries.length === 0) {
-    $noEntriesMessage?.classList.add('hidden');
+    $noEntriesMessage?.classList.remove('hidden');
     return;
   }
   if (data.entries.length > 0) {
-    $noEntriesMessage?.classList.remove('hidden');
+    $noEntriesMessage?.classList.add('hidden');
   }
 }
 function viewSwap(viewName) {
@@ -82,7 +82,7 @@ $entryForm.addEventListener('submit', (event) => {
   $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
   writeData();
-  $entriesUl.appendChild(renderEntry(entryObj));
+  $entriesUl.insertBefore(renderEntry(entryObj), $entriesUl.firstChild);
   viewSwap('entries');
   if (data.entries.length > 0) {
     toggleNoEntries();
