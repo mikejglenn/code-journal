@@ -15,6 +15,7 @@ header .column-full {
 header a {
   font-size: 1.3rem;
   margin-left: 1rem;
+  color: #fff;
 }
 
 h2 {
@@ -70,4 +71,9 @@ ul {
 [data-view='entries'] .column-full {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+[data-view='entries'] button {
+  font-size: 1rem;
 }

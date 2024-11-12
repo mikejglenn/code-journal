@@ -6,6 +6,8 @@ const $entriesUl = document.querySelector('ul');
 const $noEntriesMessage = document.querySelector('#no-entries');
 const $entryFormView = document.querySelector('[data-view="entry-form"]');
 const $entriesView = document.querySelector('[data-view="entries"]');
+const $entriesAnchor = document.querySelector('#entries-anchor');
+const $newEntry = document.querySelector('#new-entry');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -13,10 +15,12 @@ if (
   !$entriesUl ||
   !$noEntriesMessage ||
   !$entryFormView ||
-  !$entriesView
+  !$entriesView ||
+  !$entriesAnchor ||
+  !$newEntry
 ) {
   throw new Error(`The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
-     $entryFormView or $entriesView query failed`);
+     $entryFormView or $entriesView or $entriesAnchor or $newEntry query failed`);
 }
 function renderEntry(entry) {
   const $domTreeEntryLi = document.createElement('li');
@@ -39,7 +43,13 @@ function renderEntry(entry) {
   return $domTreeEntryLi;
 }
 function toggleNoEntries() {
-  $noEntriesMessage?.classList.toggle('hidden');
+  if (data.entries.length === 0) {
+    $noEntriesMessage?.classList.add('hidden');
+    return;
+  }
+  if (data.entries.length > 0) {
+    $noEntriesMessage?.classList.remove('hidden');
+  }
 }
 function viewSwap(viewName) {
   if (viewName === 'entry-form') {
@@ -51,6 +61,8 @@ function viewSwap(viewName) {
     $entriesView?.classList.remove('hidden');
   }
   data.view = viewName;
+  toggleNoEntries();
+  writeData();
 }
 $photoUrl.addEventListener('input', (event) => {
   const target = event.target;
@@ -72,12 +84,20 @@ $entryForm.addEventListener('submit', (event) => {
   writeData();
   $entriesUl.appendChild(renderEntry(entryObj));
   viewSwap('entries');
-  if ($noEntriesMessage.classList.contains('hidden')) {
+  if (data.entries.length > 0) {
     toggleNoEntries();
   }
 });
 document.addEventListener('DOMContentLoaded', () => {
+  viewSwap(data.view);
+  toggleNoEntries();
   for (const entry of data.entries) {
     $entriesUl.appendChild(renderEntry(entry));
   }
+});
+$entriesAnchor.addEventListener('click', () => {
+  viewSwap('entries');
+});
+$newEntry.addEventListener('click', () => {
+  viewSwap('entry-form');
 });
