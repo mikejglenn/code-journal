@@ -16,6 +16,7 @@ header a {
   font-size: 1.3rem;
   margin-left: 2rem;
   color: #fff;
+  cursor: pointer;
 }
 
 h2 {
@@ -56,6 +57,7 @@ button {
   color: #fff;
   border-radius: 0.2rem;
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 ul {
@@ -81,4 +83,5 @@ ul {
   border-radius: 0.2rem;
   padding: 0.3rem 0.9rem;
   text-transform: uppercase;
+  cursor: pointer;
 }

@@ -103,7 +103,7 @@ $entryForm.addEventListener('submit', (event: Event) => {
   $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
   writeData();
-  $entriesUl.insertBefore(renderEntry(entryObj), $entriesUl.firstChild);
+  $entriesUl.prepend(renderEntry(entryObj));
   viewSwap('entries');
   if (data.entries.length > 0) {
     toggleNoEntries();
