@@ -90,7 +90,9 @@ $entryForm.addEventListener('submit', (event) => {
 });
 document.addEventListener('DOMContentLoaded', () => {
   viewSwap(data.view);
-  toggleNoEntries();
+  if (data.entries.length > 0) {
+    toggleNoEntries();
+  }
   for (const entry of data.entries) {
     $entriesUl.appendChild(renderEntry(entry));
   }

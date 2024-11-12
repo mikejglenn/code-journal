@@ -14,7 +14,7 @@ header .column-full {
 
 header a {
   font-size: 1.3rem;
-  margin-left: 1rem;
+  margin-left: 2rem;
   color: #fff;
 }
 
@@ -74,6 +74,11 @@ ul {
   align-items: center;
 }
 
-[data-view='entries'] button {
-  font-size: 1rem;
+[data-view='entries'] a {
+  font-size: 1.3rem;
+  background-color: #4c2474;
+  color: #fff;
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.9rem;
+  text-transform: uppercase;
 }
