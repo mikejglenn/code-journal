@@ -4,6 +4,28 @@ interface FormElements extends HTMLFormControlsCollection {
   notes: HTMLTextAreaElement;
 }
 
+const $photoPreview = document.querySelector('#photo_preview');
+const $photoUrl = document.querySelector('#photo_url');
+const $entryForm = document.querySelector('form') as HTMLFormElement;
+const $entriesUl = document.querySelector('ul');
+const $noEntriesMessage = document.querySelector('#no-entries');
+const $entryFormDiv = document.querySelector('[data-view="entry-form"]');
+const $entriesDiv = document.querySelector('[data-view="entries"]');
+if (
+  !$photoUrl ||
+  !$photoPreview ||
+  !$entryForm ||
+  !$entriesUl ||
+  !$noEntriesMessage ||
+  !$entryFormDiv ||
+  !$entriesDiv
+) {
+  throw new Error(
+    `The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
+     $entryFormDiv or $entriesDiv query failed`,
+  );
+}
+
 function renderEntry(entry: Entry): HTMLElement {
   const $domTreeEntryLi = document.createElement('li');
   $domTreeEntryLi.className = 'row';
@@ -34,14 +56,14 @@ function renderEntry(entry: Entry): HTMLElement {
   return $domTreeEntryLi;
 }
 
-const $photoPreview = document.querySelector('#photo_preview');
-const $photoUrl = document.querySelector('#photo_url');
-const $entryForm = document.querySelector('form') as HTMLFormElement;
-const $ul = document.querySelector('ul');
-if (!$photoUrl || !$photoPreview || !$entryForm || !$ul) {
-  throw new Error(
-    'The $photoPreview or $photoUrl or $entryForm or $ul query failed',
-  );
+function toggleNoEntries(): void {
+  $noEntriesMessage?.classList.toggle('hidden');
+}
+
+function viewSwap(viewName: string): void {
+  // entry-form
+  // entries
+  data.view = viewName;
 }
 
 $photoUrl.addEventListener('input', (event: Event) => {
@@ -63,10 +85,15 @@ $entryForm.addEventListener('submit', (event: Event) => {
   $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
   writeData();
+  $entriesUl.appendChild(renderEntry(entryObj));
+  viewSwap('entries');
+  if ($noEntriesMessage.classList.contains('hidden')) {
+    toggleNoEntries();
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   for (const entry of data.entries) {
-    $ul.appendChild(renderEntry(entry));
+    $entriesUl.appendChild(renderEntry(entry));
   }
 });
