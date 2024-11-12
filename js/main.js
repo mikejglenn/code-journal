@@ -1,25 +1,18 @@
-interface FormElements extends HTMLFormControlsCollection {
-  title: HTMLInputElement;
-  photo_url: HTMLInputElement;
-  notes: HTMLTextAreaElement;
-}
-
+'use strict';
 const $photoPreview = document.querySelector('#photo_preview');
 const $photoUrl = document.querySelector('#photo_url');
-const $entryForm = document.querySelector('form') as HTMLFormElement;
+const $entryForm = document.querySelector('form');
 if (!$photoUrl || !$photoPreview || !$entryForm) {
   throw new Error('The $photoPreview or $photoUrl or $entryForm query failed');
 }
-
-$photoUrl.addEventListener('input', (event: Event) => {
-  const target = event.target as HTMLInputElement;
+$photoUrl.addEventListener('input', (event) => {
+  const target = event.target;
   $photoPreview.setAttribute('src', target.value);
 });
-
-$entryForm.addEventListener('submit', (event: Event) => {
+$entryForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  const $formElements = $entryForm.elements as FormElements;
-  const entryObj: Entry = {
+  const $formElements = $entryForm.elements;
+  const entryObj = {
     title: $formElements.title.value,
     photo_url: $formElements.photo_url.value,
     notes: $formElements.notes.value,

@@ -1,25 +1,10 @@
-interface Entry {
-  title: string;
-  photo_url: string;
-  notes: string;
-  entryId: number;
-}
-
-interface Data {
-  view: string;
-  entries: Entry[];
-  editing: null;
-  nextEntryId: number;
-}
-
-const data: Data = readData();
-
-function writeData(): void {
+'use strict';
+const data = readData();
+function writeData() {
   const dataJSON = JSON.stringify(data);
   localStorage.setItem('data-storage', dataJSON);
 }
-
-function readData(): Data {
+function readData() {
   const dataJSON = localStorage.getItem('data-storage');
   if (dataJSON !== null) {
     return JSON.parse(dataJSON);
