@@ -21,18 +21,20 @@
         <div class="row">
           <div class="column-full">
             <h1>Code Journal</h1>
+            <a id="entries-anchor">Entries</a>
           </div>
         </div>
       </div>
     </header>
 
     <main class="container">
-      <div data-view="entry-form">
+      <div data-view="entry-form" class="hidden">
         <div class="row">
           <div class="column-full">
             <h2>New Entry</h2>
           </div>
         </div>
+
         <form>
           <div class="row">
             <div class="column-half">
@@ -63,7 +65,19 @@
           </div>
         </form>
       </div>
-      <div data-view="entries" class="hidden"></div>
+
+      <div data-view="entries">
+        <div class="row">
+          <div class="column-full">
+            <h2>Entries</h2>
+            <a id="new-entry">New</a>
+          </div>
+        </div>
+        <p id="no-entries">
+          No entries have been recorded which match the figma.
+        </p>
+        <ul></ul>
+      </div>
     </main>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
