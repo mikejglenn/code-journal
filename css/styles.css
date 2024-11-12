@@ -70,10 +70,19 @@ ul {
   padding: 0 0.75rem;
 }
 
+i {
+  font-size: 1rem;
+}
+
 [data-view='entries'] .column-full {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+[data-view='entries'] h3 {
+  display: flex;
+  justify-content: space-between;
 }
 
 [data-view='entries'] a {

@@ -8,6 +8,7 @@ const $entryFormView = document.querySelector('[data-view="entry-form"]');
 const $entriesView = document.querySelector('[data-view="entries"]');
 const $entriesAnchor = document.querySelector('#entries-anchor');
 const $newEntry = document.querySelector('#new-entry');
+const $entryFormTitle = document.querySelector('#entry-form-title');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -17,14 +18,17 @@ if (
   !$entryFormView ||
   !$entriesView ||
   !$entriesAnchor ||
-  !$newEntry
+  !$newEntry ||
+  !$entryFormTitle
 ) {
   throw new Error(`The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
-     $entryFormView or $entriesView or $entriesAnchor or $newEntry query failed`);
+     $entryFormView or $entriesView or $entriesAnchor or $newEntry or
+     $entryFormTitle query failed`);
 }
 function renderEntry(entry) {
   const $domTreeEntryLi = document.createElement('li');
   $domTreeEntryLi.className = 'row';
+  $domTreeEntryLi.dataset.entryId = `${entry.entryId}`;
   const $columnHalf1 = document.createElement('div');
   $columnHalf1.className = 'column-half';
   const $imgEntry = document.createElement('img');
@@ -33,9 +37,12 @@ function renderEntry(entry) {
   $columnHalf2.className = 'column-half';
   const $h3Title = document.createElement('h3');
   $h3Title.innerHTML = entry.title;
+  const $faPencil = document.createElement('i');
+  $faPencil.className = 'fa-solid fa-pencil';
   const $pNotes = document.createElement('p');
   $pNotes.innerHTML = entry.notes;
   $columnHalf1.appendChild($imgEntry);
+  $h3Title.appendChild($faPencil);
   $columnHalf2.appendChild($h3Title);
   $columnHalf2.appendChild($pNotes);
   $domTreeEntryLi.appendChild($columnHalf1);
@@ -65,8 +72,8 @@ function viewSwap(viewName) {
   writeData();
 }
 $photoUrl.addEventListener('input', (event) => {
-  const target = event.target;
-  $photoPreview.setAttribute('src', target.value);
+  const $eventTarget = event.target;
+  $photoPreview.setAttribute('src', $eventTarget.value);
 });
 $entryForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -102,4 +109,21 @@ $entriesAnchor.addEventListener('click', () => {
 });
 $newEntry.addEventListener('click', () => {
   viewSwap('entry-form');
+});
+$entriesUl.addEventListener('click', (event) => {
+  const $eventTarget = event.target;
+  if ($eventTarget.tagName === 'I') {
+    viewSwap('entry-form');
+    const $clsElm = $eventTarget.closest('li');
+    for (const entry of data.entries) {
+      if (`${entry.entryId}` === $clsElm?.dataset.entryId) {
+        data.editing = entry;
+        const $formElements = $entryForm.elements;
+        $formElements.title.value = data.editing.title;
+        $formElements.photo_url.value = data.editing.photo_url;
+        $formElements.notes.value = data.editing.notes;
+        $entryFormTitle.innerHTML = 'Edit Title';
+      }
+    }
+  }
 });
