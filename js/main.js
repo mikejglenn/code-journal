@@ -36,11 +36,11 @@ function renderEntry(entry) {
   const $columnHalf2 = document.createElement('div');
   $columnHalf2.className = 'column-half';
   const $h3Title = document.createElement('h3');
-  $h3Title.innerHTML = entry.title;
+  $h3Title.textContent = entry.title;
   const $faPencil = document.createElement('i');
   $faPencil.className = 'fa-solid fa-pencil';
   const $pNotes = document.createElement('p');
-  $pNotes.innerHTML = entry.notes;
+  $pNotes.textContent = entry.notes;
   $columnHalf1.appendChild($imgEntry);
   $h3Title.appendChild($faPencil);
   $columnHalf2.appendChild($h3Title);
@@ -97,13 +97,18 @@ $entryForm.addEventListener('submit', (event) => {
       notes: $formElements.notes.value,
       entryId: data.editing.entryId,
     };
-    data.entries[data.entries.length - data.editing.entryId] = editEntryObj;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === editEntryObj.entryId) {
+        data.entries[i] = editEntryObj;
+        break;
+      }
+    }
     const oldLi = document.querySelector(
       `[data-entry-id="${data.editing.entryId}"]`,
     );
     const newLi = renderEntry(editEntryObj);
     $entriesUl.replaceChild(newLi, oldLi);
-    $entryFormTitle.innerHTML = 'New Entry';
+    $entryFormTitle.textContent = 'New Entry';
     data.editing = null;
   }
   $entryForm.reset();
@@ -126,7 +131,7 @@ $entriesAnchor.addEventListener('click', () => {
   viewSwap('entries');
 });
 $newEntry.addEventListener('click', () => {
-  $entryFormTitle.innerHTML = 'New Entry';
+  $entryFormTitle.textContent = 'New Entry';
   $entryForm.reset();
   viewSwap('entry-form');
 });
@@ -142,7 +147,7 @@ $entriesUl.addEventListener('click', (event) => {
         $formElements.title.value = data.editing.title;
         $formElements.photo_url.value = data.editing.photo_url;
         $formElements.notes.value = data.editing.notes;
-        $entryFormTitle.innerHTML = 'Edit Entry';
+        $entryFormTitle.textContent = 'Edit Entry';
       }
     }
   }
