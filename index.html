@@ -60,7 +60,10 @@
 
           <div class="row button-row">
             <div class="column-full">
-              <button type="submit">Save</button>
+              <button type="button" id="delete-button" class="hidden">
+                Delete Entry
+              </button>
+              <button type="submit" id="submit-button">Save</button>
             </div>
           </div>
         </form>
@@ -79,6 +82,13 @@
         <ul></ul>
       </div>
     </main>
+    <dialog>
+      <h2>Would you like to delete the entry?</h2>
+      <div class="modal-actions">
+        <button class="cancel-modal">Cancel</button>
+        <button class="confirm-modal">Confirm</button>
+      </div>
+    </dialog>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
   </body>

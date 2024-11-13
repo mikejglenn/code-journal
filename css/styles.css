@@ -48,7 +48,7 @@ textarea {
 
 .button-row .column-full {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 button {
@@ -58,6 +58,18 @@ button {
   border-radius: 0.2rem;
   padding: 0.5rem;
   cursor: pointer;
+}
+
+#delete-button {
+  text-transform: none;
+  text-decoration: underline;
+  color: #f00;
+  background-color: transparent;
+  border: transparent;
+}
+
+#submit-button {
+  margin-left: auto;
 }
 
 ul {
