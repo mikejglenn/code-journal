@@ -127,8 +127,6 @@ $entryForm.addEventListener('submit', (event: Event) => {
       `[data-entry-id="${data.editing.entryId}"]`,
     ) as Element;
     const newLi = renderEntry(editEntryObj);
-    console.log(oldLi);
-    console.log(newLi);
     $entriesUl.replaceChild(newLi, oldLi);
     $entryFormTitle.innerHTML = 'New Entry';
     data.editing = null;
@@ -157,6 +155,7 @@ $entriesAnchor.addEventListener('click', () => {
 });
 
 $newEntry.addEventListener('click', () => {
+  $entryFormTitle.innerHTML = 'New Entry';
   $entryForm.reset();
   viewSwap('entry-form');
 });
