@@ -60,16 +60,16 @@ button {
   cursor: pointer;
 }
 
+#submit-button {
+  margin-left: auto;
+}
+
 #delete-button {
   text-transform: none;
   text-decoration: underline;
   color: #f00;
   background-color: transparent;
   border: transparent;
-}
-
-#submit-button {
-  margin-left: auto;
 }
 
 ul {
