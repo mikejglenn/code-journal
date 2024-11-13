@@ -217,6 +217,7 @@ $confirmModal.addEventListener('click', () => {
         toggleNoEntries();
       }
       $dialog.close();
+      data.editing = null;
       viewSwap('entries');
       break;
     }
