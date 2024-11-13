@@ -14,6 +14,10 @@ const $entriesView = document.querySelector('[data-view="entries"]');
 const $entriesAnchor = document.querySelector('#entries-anchor');
 const $newEntry = document.querySelector('#new-entry');
 const $entryFormTitle = document.querySelector('#entry-form-title');
+const $deleteEntry = document.querySelector('#delete-button');
+const $dialog = document.querySelector('dialog');
+const $cancelModal = document.querySelector('.cancel-modal');
+const $confirmModal = document.querySelector('.confirm-modal');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -24,12 +28,17 @@ if (
   !$entriesView ||
   !$entriesAnchor ||
   !$newEntry ||
-  !$entryFormTitle
+  !$entryFormTitle ||
+  !$deleteEntry ||
+  !$dialog ||
+  !$cancelModal ||
+  !$confirmModal
 ) {
   throw new Error(
     `The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
      $entryFormView or $entriesView or $entriesAnchor or $newEntry or
-     $entryFormTitle query failed`,
+     $entryFormTitle or $deleteEntry  or $dialog or $cancelModal or
+     $confirmModal query failed`,
   );
 }
 
@@ -128,11 +137,11 @@ $entryForm.addEventListener('submit', (event: Event) => {
         break;
       }
     }
-    const oldLi = document.querySelector(
+    const $oldLi = document.querySelector(
       `[data-entry-id="${data.editing.entryId}"]`,
     ) as Element;
-    const newLi = renderEntry(editEntryObj);
-    $entriesUl.replaceChild(newLi, oldLi);
+    const $newLi = renderEntry(editEntryObj);
+    $entriesUl.replaceChild($newLi, $oldLi);
     $entryFormTitle.textContent = 'New Entry';
     data.editing = null;
   }
@@ -160,6 +169,7 @@ $entriesAnchor.addEventListener('click', () => {
 });
 
 $newEntry.addEventListener('click', () => {
+  $deleteEntry?.classList.add('hidden');
   $entryFormTitle.textContent = 'New Entry';
   $entryForm.reset();
   viewSwap('entry-form');
@@ -169,6 +179,7 @@ $entriesUl.addEventListener('click', (event: Event) => {
   const $eventTarget = event.target as HTMLElement;
 
   if ($eventTarget.tagName === 'I') {
+    $deleteEntry?.classList.remove('hidden');
     viewSwap('entry-form');
     const $closestLi = $eventTarget.closest('li');
 
@@ -180,7 +191,35 @@ $entriesUl.addEventListener('click', (event: Event) => {
         $formElements.photo_url.value = data.editing.photo_url;
         $formElements.notes.value = data.editing.notes;
         $entryFormTitle.textContent = 'Edit Entry';
+        break;
       }
+    }
+  }
+});
+
+$deleteEntry.addEventListener('click', () => {
+  $dialog.showModal();
+});
+
+$cancelModal.addEventListener('click', () => {
+  $dialog.close();
+});
+
+$confirmModal.addEventListener('click', () => {
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === data.editing?.entryId) {
+      data.entries.splice(i, 1);
+      const $deleteLi = document.querySelector(
+        `[data-entry-id="${data.editing.entryId}"]`,
+      ) as Element;
+      $deleteLi.remove();
+      if (data.entries.length === 0) {
+        toggleNoEntries();
+      }
+      $dialog.close();
+      data.editing = null;
+      viewSwap('entries');
+      break;
     }
   }
 });
