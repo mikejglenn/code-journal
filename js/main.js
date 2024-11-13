@@ -78,18 +78,38 @@ $photoUrl.addEventListener('input', (event) => {
 $entryForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const $formElements = $entryForm.elements;
-  const entryObj = {
-    title: $formElements.title.value,
-    photo_url: $formElements.photo_url.value,
-    notes: $formElements.notes.value,
-    entryId: data.nextEntryId,
-  };
-  data.nextEntryId++;
-  data.entries.unshift(entryObj);
-  $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
+  if (data.editing === null) {
+    const newEntryObj = {
+      title: $formElements.title.value,
+      photo_url: $formElements.photo_url.value,
+      notes: $formElements.notes.value,
+      entryId: data.nextEntryId,
+    };
+    data.nextEntryId++;
+    data.entries.unshift(newEntryObj);
+    $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
+    $entriesUl.prepend(renderEntry(newEntryObj));
+  }
+  if (data.editing !== null) {
+    const editEntryObj = {
+      title: $formElements.title.value,
+      photo_url: $formElements.photo_url.value,
+      notes: $formElements.notes.value,
+      entryId: data.editing.entryId,
+    };
+    data.entries[data.entries.length - data.editing.entryId] = editEntryObj;
+    const oldLi = document.querySelector(
+      `[data-entry-id="${data.editing.entryId}"]`,
+    );
+    const newLi = renderEntry(editEntryObj);
+    console.log(oldLi);
+    console.log(newLi);
+    $entriesUl.replaceChild(newLi, oldLi);
+    $entryFormTitle.innerHTML = 'New Entry';
+    data.editing = null;
+  }
   $entryForm.reset();
   writeData();
-  $entriesUl.prepend(renderEntry(entryObj));
   viewSwap('entries');
   if (data.entries.length > 0) {
     toggleNoEntries();
@@ -108,21 +128,22 @@ $entriesAnchor.addEventListener('click', () => {
   viewSwap('entries');
 });
 $newEntry.addEventListener('click', () => {
+  $entryForm.reset();
   viewSwap('entry-form');
 });
 $entriesUl.addEventListener('click', (event) => {
   const $eventTarget = event.target;
   if ($eventTarget.tagName === 'I') {
     viewSwap('entry-form');
-    const $clsElm = $eventTarget.closest('li');
+    const $closestLi = $eventTarget.closest('li');
     for (const entry of data.entries) {
-      if (`${entry.entryId}` === $clsElm?.dataset.entryId) {
+      if (`${entry.entryId}` === $closestLi?.dataset.entryId) {
         data.editing = entry;
         const $formElements = $entryForm.elements;
         $formElements.title.value = data.editing.title;
         $formElements.photo_url.value = data.editing.photo_url;
         $formElements.notes.value = data.editing.notes;
-        $entryFormTitle.innerHTML = 'Edit Title';
+        $entryFormTitle.innerHTML = 'Edit Entry';
       }
     }
   }
