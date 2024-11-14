@@ -60,6 +60,16 @@ button {
   cursor: pointer;
 }
 
+#search {
+  max-width: 9rem;
+  padding: 0.3rem;
+  margin: auto;
+}
+
+#sort-entries {
+  margin-right: 1rem;
+}
+
 #submit-button {
   margin-left: auto;
 }
@@ -76,6 +86,12 @@ ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+ul li {
+  width: 100%;
 }
 
 #no-entries {
@@ -105,12 +121,6 @@ i {
   padding: 0.3rem 0.9rem;
   text-transform: uppercase;
   cursor: pointer;
-}
-
-#search {
-  max-width: 12rem;
-  padding: 0.3rem;
-  margin: auto;
 }
 
 @media screen and (width >= 768px) {
