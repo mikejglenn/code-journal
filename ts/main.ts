@@ -230,14 +230,11 @@ $searchBox.addEventListener('input', (event: Event) => {
   const $eventTarget = event.target as HTMLInputElement;
   const searchInput = $eventTarget.value;
 
-  if (searchInput === '') {
-    for (const entry of data.entries) {
-      const $showLi = document.querySelector(
-        `[data-entry-id="${entry.entryId}"]`,
-      ) as HTMLElement;
-      $showLi.classList.remove('hidden');
-    }
-    return;
+  for (const entry of data.entries) {
+    const $showLi = document.querySelector(
+      `[data-entry-id="${entry.entryId}"]`,
+    ) as HTMLElement;
+    $showLi.classList.remove('hidden');
   }
 
   for (const entry of data.entries) {

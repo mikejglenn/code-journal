@@ -193,14 +193,11 @@ $confirmModal.addEventListener('click', () => {
 $searchBox.addEventListener('input', (event) => {
   const $eventTarget = event.target;
   const searchInput = $eventTarget.value;
-  if (searchInput === '') {
-    for (const entry of data.entries) {
-      const $showLi = document.querySelector(
-        `[data-entry-id="${entry.entryId}"]`,
-      );
-      $showLi.classList.remove('hidden');
-    }
-    return;
+  for (const entry of data.entries) {
+    const $showLi = document.querySelector(
+      `[data-entry-id="${entry.entryId}"]`,
+    );
+    $showLi.classList.remove('hidden');
   }
   for (const entry of data.entries) {
     if (
