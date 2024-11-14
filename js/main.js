@@ -217,7 +217,6 @@ $sortButton.addEventListener('click', () => {
   const flexDir = $entriesUl.style.flexDirection;
   if (flexDir === '') {
     $entriesUl.style.flexDirection = 'column-reverse';
-    return;
   }
   if (flexDir === 'column-reverse') {
     $entriesUl.style.flexDirection = '';
