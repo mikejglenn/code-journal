@@ -18,6 +18,7 @@ const $deleteEntry = document.querySelector('#delete-button');
 const $dialog = document.querySelector('dialog');
 const $cancelModal = document.querySelector('.cancel-modal');
 const $confirmModal = document.querySelector('.confirm-modal');
+const $searchBox = document.querySelector('#search');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -32,13 +33,14 @@ if (
   !$deleteEntry ||
   !$dialog ||
   !$cancelModal ||
-  !$confirmModal
+  !$confirmModal ||
+  !$searchBox
 ) {
   throw new Error(
     `The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
      $entryFormView or $entriesView or $entriesAnchor or $newEntry or
      $entryFormTitle or $deleteEntry  or $dialog or $cancelModal or
-     $confirmModal query failed`,
+     $confirmModal or $searchBox query failed`,
   );
 }
 
@@ -139,7 +141,7 @@ $entryForm.addEventListener('submit', (event: Event) => {
     }
     const $oldLi = document.querySelector(
       `[data-entry-id="${data.editing.entryId}"]`,
-    ) as Element;
+    ) as HTMLElement;
     const $newLi = renderEntry(editEntryObj);
     $entriesUl.replaceChild($newLi, $oldLi);
     $entryFormTitle.textContent = 'New Entry';
@@ -211,7 +213,7 @@ $confirmModal.addEventListener('click', () => {
       data.entries.splice(i, 1);
       const $deleteLi = document.querySelector(
         `[data-entry-id="${data.editing.entryId}"]`,
-      ) as Element;
+      ) as HTMLElement;
       $deleteLi.remove();
       if (data.entries.length === 0) {
         toggleNoEntries();
@@ -220,6 +222,33 @@ $confirmModal.addEventListener('click', () => {
       data.editing = null;
       viewSwap('entries');
       break;
+    }
+  }
+});
+
+$searchBox.addEventListener('input', (event: Event) => {
+  const $eventTarget = event.target as HTMLInputElement;
+  const searchInput = $eventTarget.value;
+
+  if (searchInput === '') {
+    for (const entry of data.entries) {
+      const $showLi = document.querySelector(
+        `[data-entry-id="${entry.entryId}"]`,
+      ) as HTMLElement;
+      $showLi.classList.remove('hidden');
+    }
+    return;
+  }
+
+  for (const entry of data.entries) {
+    if (
+      !entry.title.includes(searchInput) &&
+      !entry.notes.includes(searchInput)
+    ) {
+      const $hideLi = document.querySelector(
+        `[data-entry-id="${entry.entryId}"]`,
+      ) as HTMLElement;
+      $hideLi.classList.add('hidden');
     }
   }
 });

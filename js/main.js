@@ -13,6 +13,7 @@ const $deleteEntry = document.querySelector('#delete-button');
 const $dialog = document.querySelector('dialog');
 const $cancelModal = document.querySelector('.cancel-modal');
 const $confirmModal = document.querySelector('.confirm-modal');
+const $searchBox = document.querySelector('#search');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -27,12 +28,13 @@ if (
   !$deleteEntry ||
   !$dialog ||
   !$cancelModal ||
-  !$confirmModal
+  !$confirmModal ||
+  !$searchBox
 ) {
   throw new Error(`The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
      $entryFormView or $entriesView or $entriesAnchor or $newEntry or
      $entryFormTitle or $deleteEntry  or $dialog or $cancelModal or
-     $confirmModal query failed`);
+     $confirmModal or $searchBox query failed`);
 }
 function renderEntry(entry) {
   const $domTreeEntryLi = document.createElement('li');
@@ -185,6 +187,30 @@ $confirmModal.addEventListener('click', () => {
       data.editing = null;
       viewSwap('entries');
       break;
+    }
+  }
+});
+$searchBox.addEventListener('input', (event) => {
+  const $eventTarget = event.target;
+  const searchInput = $eventTarget.value;
+  if (searchInput === '') {
+    for (const entry of data.entries) {
+      const $showLi = document.querySelector(
+        `[data-entry-id="${entry.entryId}"]`,
+      );
+      $showLi.classList.remove('hidden');
+    }
+    return;
+  }
+  for (const entry of data.entries) {
+    if (
+      !entry.title.includes(searchInput) &&
+      !entry.notes.includes(searchInput)
+    ) {
+      const $hideLi = document.querySelector(
+        `[data-entry-id="${entry.entryId}"]`,
+      );
+      $hideLi.classList.add('hidden');
     }
   }
 });
