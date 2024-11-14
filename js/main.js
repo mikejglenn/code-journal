@@ -112,7 +112,7 @@ $entryForm.addEventListener('submit', (event) => {
       photo_url: $formElements.photo_url.value,
       notes: $formElements.notes.value,
       entryId: data.nextEntryId,
-      tags: $formElements.tags.value.split(','),
+      tags: $formElements.tags.value.split(' '),
     };
     data.nextEntryId++;
     data.entries.unshift(newEntryObj);
@@ -125,7 +125,7 @@ $entryForm.addEventListener('submit', (event) => {
       photo_url: $formElements.photo_url.value,
       notes: $formElements.notes.value,
       entryId: data.editing.entryId,
-      tags: $formElements.tags.value.split(','),
+      tags: $formElements.tags.value.split(' '),
     };
     for (const key in data.entries) {
       if (data.entries[key].entryId === editEntryObj.entryId) {
@@ -179,7 +179,7 @@ $entriesUl.addEventListener('click', (event) => {
         $formElements.title.value = data.editing.title;
         $formElements.photo_url.value = data.editing.photo_url;
         $formElements.notes.value = data.editing.notes;
-        $formElements.tags.value = data.editing.tags.join(',');
+        $formElements.tags.value = data.editing.tags.join(' ');
         $entryFormTitle.textContent = 'Edit Entry';
         break;
       }
