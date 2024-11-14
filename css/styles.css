@@ -60,14 +60,9 @@ button {
   cursor: pointer;
 }
 
-#search {
-  max-width: 9rem;
-  padding: 0.3rem;
-  margin: auto;
-}
-
 #sort-entries {
   margin-right: 1rem;
+  margin-left: auto;
 }
 
 #submit-button {
@@ -121,10 +116,4 @@ i {
   padding: 0.3rem 0.9rem;
   text-transform: uppercase;
   cursor: pointer;
-}
-
-@media screen and (width >= 768px) {
-  #search {
-    max-width: 20rem;
-  }
 }

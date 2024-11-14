@@ -21,6 +21,7 @@ const $cancelModal = document.querySelector('.cancel-modal');
 const $confirmModal = document.querySelector('.confirm-modal');
 const $searchBox = document.querySelector('#search');
 const $sortButton = document.querySelector('#sort-entries');
+const $filterBox = document.querySelector('#filter');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -37,13 +38,14 @@ if (
   !$cancelModal ||
   !$confirmModal ||
   !$searchBox ||
-  !$sortButton
+  !$sortButton ||
+  !$filterBox
 ) {
   throw new Error(
     `The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
      $entryFormView or $entriesView or $entriesAnchor or $newEntry or
      $entryFormTitle or $deleteEntry  or $dialog or $cancelModal or
-     $confirmModal or $searchBox or $sortButton query failed`,
+     $confirmModal or $searchBox or $sortButton or $filterBox query failed`,
   );
 }
 
@@ -253,21 +255,15 @@ $searchBox.addEventListener('input', (event: Event) => {
   const searchInput = $eventTarget.value;
 
   for (const entry of data.entries) {
-    const $showLi = document.querySelector(
+    const $showHideLi = document.querySelector(
       `[data-entry-id="${entry.entryId}"]`,
     ) as HTMLElement;
-    $showLi.classList.remove('hidden');
-  }
-
-  for (const entry of data.entries) {
+    $showHideLi.classList.remove('hidden');
     if (
       !entry.title.includes(searchInput) &&
       !entry.notes.includes(searchInput)
     ) {
-      const $hideLi = document.querySelector(
-        `[data-entry-id="${entry.entryId}"]`,
-      ) as HTMLElement;
-      $hideLi.classList.add('hidden');
+      $showHideLi.classList.add('hidden');
     }
   }
 });
@@ -279,5 +275,20 @@ $sortButton.addEventListener('click', () => {
   }
   if (flexDir === 'column-reverse') {
     $entriesUl.style.flexDirection = '';
+  }
+});
+
+$filterBox.addEventListener('input', (event: Event) => {
+  const $eventTarget = event.target as HTMLInputElement;
+  const filterInput = $eventTarget.value;
+
+  for (const entry of data.entries) {
+    const $showHideLi = document.querySelector(
+      `[data-entry-id="${entry.entryId}"]`,
+    ) as HTMLElement;
+    $showHideLi.classList.remove('hidden');
+    if (filterInput !== '' && !entry.tags.includes(filterInput)) {
+      $showHideLi.classList.add('hidden');
+    }
   }
 });
