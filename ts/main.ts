@@ -19,6 +19,7 @@ const $dialog = document.querySelector('dialog');
 const $cancelModal = document.querySelector('.cancel-modal');
 const $confirmModal = document.querySelector('.confirm-modal');
 const $searchBox = document.querySelector('#search');
+const $sortButton = document.querySelector('#sort-entries');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -34,13 +35,14 @@ if (
   !$dialog ||
   !$cancelModal ||
   !$confirmModal ||
-  !$searchBox
+  !$searchBox ||
+  !$sortButton
 ) {
   throw new Error(
     `The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
      $entryFormView or $entriesView or $entriesAnchor or $newEntry or
      $entryFormTitle or $deleteEntry  or $dialog or $cancelModal or
-     $confirmModal or $searchBox query failed`,
+     $confirmModal or $searchBox or $sortButton query failed`,
   );
 }
 
@@ -247,5 +249,16 @@ $searchBox.addEventListener('input', (event: Event) => {
       ) as HTMLElement;
       $hideLi.classList.add('hidden');
     }
+  }
+});
+
+$sortButton.addEventListener('click', () => {
+  const flexDir = $entriesUl.style.flexDirection;
+  if (flexDir === '') {
+    $entriesUl.style.flexDirection = 'column-reverse';
+    return;
+  }
+  if (flexDir === 'column-reverse') {
+    $entriesUl.style.flexDirection = '';
   }
 });
