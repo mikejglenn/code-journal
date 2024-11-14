@@ -133,14 +133,14 @@ $entryForm.addEventListener('submit', (event: Event) => {
       notes: $formElements.notes.value,
       entryId: data.editing.entryId,
     };
-    for (let i = 0; i < data.entries.length; i++) {
-      if (data.entries[i].entryId === editEntryObj.entryId) {
-        data.entries[i] = editEntryObj;
+    for (const key in data.entries) {
+      if (data.entries[key].entryId === editEntryObj.entryId) {
+        data.entries[key] = editEntryObj;
         break;
       }
     }
     const $oldLi = document.querySelector(
-      `[data-entry-id="${data.editing.entryId}"]`,
+      `[data-entry-id="${editEntryObj.entryId}"]`,
     ) as HTMLElement;
     const $newLi = renderEntry(editEntryObj);
     $entriesUl.replaceChild($newLi, $oldLi);
@@ -208,9 +208,9 @@ $cancelModal.addEventListener('click', () => {
 });
 
 $confirmModal.addEventListener('click', () => {
-  for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].entryId === data.editing?.entryId) {
-      data.entries.splice(i, 1);
+  for (const key in data.entries) {
+    if (data.entries[key].entryId === data.editing?.entryId) {
+      data.entries.splice(+key, 1);
       const $deleteLi = document.querySelector(
         `[data-entry-id="${data.editing.entryId}"]`,
       ) as HTMLElement;
