@@ -106,3 +106,15 @@ i {
   text-transform: uppercase;
   cursor: pointer;
 }
+
+#search {
+  max-width: 12rem;
+  padding: 0.3rem;
+  margin: auto;
+}
+
+@media screen and (width >= 768px) {
+  #search {
+    max-width: 20rem;
+  }
+}

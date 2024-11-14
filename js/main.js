@@ -13,6 +13,7 @@ const $deleteEntry = document.querySelector('#delete-button');
 const $dialog = document.querySelector('dialog');
 const $cancelModal = document.querySelector('.cancel-modal');
 const $confirmModal = document.querySelector('.confirm-modal');
+const $searchBox = document.querySelector('#search');
 if (
   !$photoUrl ||
   !$photoPreview ||
@@ -27,12 +28,13 @@ if (
   !$deleteEntry ||
   !$dialog ||
   !$cancelModal ||
-  !$confirmModal
+  !$confirmModal ||
+  !$searchBox
 ) {
   throw new Error(`The $photoPreview or $photoUrl or $entryForm or $ul or $noEntriesMessage or
      $entryFormView or $entriesView or $entriesAnchor or $newEntry or
      $entryFormTitle or $deleteEntry  or $dialog or $cancelModal or
-     $confirmModal query failed`);
+     $confirmModal or $searchBox query failed`);
 }
 function renderEntry(entry) {
   const $domTreeEntryLi = document.createElement('li');
@@ -106,14 +108,14 @@ $entryForm.addEventListener('submit', (event) => {
       notes: $formElements.notes.value,
       entryId: data.editing.entryId,
     };
-    for (let i = 0; i < data.entries.length; i++) {
-      if (data.entries[i].entryId === editEntryObj.entryId) {
-        data.entries[i] = editEntryObj;
+    for (const key in data.entries) {
+      if (data.entries[key].entryId === editEntryObj.entryId) {
+        data.entries[key] = editEntryObj;
         break;
       }
     }
     const $oldLi = document.querySelector(
-      `[data-entry-id="${data.editing.entryId}"]`,
+      `[data-entry-id="${editEntryObj.entryId}"]`,
     );
     const $newLi = renderEntry(editEntryObj);
     $entriesUl.replaceChild($newLi, $oldLi);
@@ -171,9 +173,9 @@ $cancelModal.addEventListener('click', () => {
   $dialog.close();
 });
 $confirmModal.addEventListener('click', () => {
-  for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].entryId === data.editing?.entryId) {
-      data.entries.splice(i, 1);
+  for (const key in data.entries) {
+    if (data.entries[key].entryId === data.editing?.entryId) {
+      data.entries.splice(+key, 1);
       const $deleteLi = document.querySelector(
         `[data-entry-id="${data.editing.entryId}"]`,
       );
@@ -185,6 +187,27 @@ $confirmModal.addEventListener('click', () => {
       data.editing = null;
       viewSwap('entries');
       break;
+    }
+  }
+});
+$searchBox.addEventListener('input', (event) => {
+  const $eventTarget = event.target;
+  const searchInput = $eventTarget.value;
+  for (const entry of data.entries) {
+    const $showLi = document.querySelector(
+      `[data-entry-id="${entry.entryId}"]`,
+    );
+    $showLi.classList.remove('hidden');
+  }
+  for (const entry of data.entries) {
+    if (
+      !entry.title.includes(searchInput) &&
+      !entry.notes.includes(searchInput)
+    ) {
+      const $hideLi = document.querySelector(
+        `[data-entry-id="${entry.entryId}"]`,
+      );
+      $hideLi.classList.add('hidden');
     }
   }
 });
