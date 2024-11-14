@@ -3,6 +3,7 @@ interface Entry {
   photo_url: string;
   notes: string;
   entryId: number;
+  tags: string[];
 }
 
 interface Data {

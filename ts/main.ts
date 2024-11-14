@@ -2,6 +2,7 @@ interface FormElements extends HTMLFormControlsCollection {
   title: HTMLInputElement;
   photo_url: HTMLInputElement;
   notes: HTMLTextAreaElement;
+  tags: HTMLInputElement;
 }
 
 const $photoPreview = document.querySelector('#photo_preview');
@@ -46,6 +47,18 @@ if (
   );
 }
 
+function tagsSpans(tags: string[]): HTMLElement {
+  const $spansTags = document.createElement('span');
+  $spansTags.textContent = 'Tags: ';
+
+  for (const tag of tags) {
+    const $spanTag = document.createElement('span');
+    $spanTag.textContent = `${tag} `;
+    $spansTags.append($spanTag);
+  }
+  return $spansTags;
+}
+
 function renderEntry(entry: Entry): HTMLElement {
   const $domTreeEntryLi = document.createElement('li');
   $domTreeEntryLi.className = 'row';
@@ -69,12 +82,16 @@ function renderEntry(entry: Entry): HTMLElement {
   const $pNotes = document.createElement('p');
   $pNotes.textContent = entry.notes;
 
+  const $pSpansTags = document.createElement('p');
+  $pSpansTags.append(tagsSpans(entry.tags));
+
   $columnHalf1.appendChild($imgEntry);
 
   $h3Title.appendChild($faPencil);
 
   $columnHalf2.appendChild($h3Title);
   $columnHalf2.appendChild($pNotes);
+  $columnHalf2.appendChild($pSpansTags);
 
   $domTreeEntryLi.appendChild($columnHalf1);
   $domTreeEntryLi.appendChild($columnHalf2);
@@ -121,6 +138,7 @@ $entryForm.addEventListener('submit', (event: Event) => {
       photo_url: $formElements.photo_url.value,
       notes: $formElements.notes.value,
       entryId: data.nextEntryId,
+      tags: $formElements.tags.value.split(','),
     };
     data.nextEntryId++;
     data.entries.unshift(newEntryObj);
@@ -134,6 +152,7 @@ $entryForm.addEventListener('submit', (event: Event) => {
       photo_url: $formElements.photo_url.value,
       notes: $formElements.notes.value,
       entryId: data.editing.entryId,
+      tags: $formElements.tags.value.split(','),
     };
     for (const key in data.entries) {
       if (data.entries[key].entryId === editEntryObj.entryId) {
@@ -194,6 +213,7 @@ $entriesUl.addEventListener('click', (event: Event) => {
         $formElements.title.value = data.editing.title;
         $formElements.photo_url.value = data.editing.photo_url;
         $formElements.notes.value = data.editing.notes;
+        $formElements.tags.value = data.editing.tags.join(',');
         $entryFormTitle.textContent = 'Edit Entry';
         break;
       }
