@@ -212,6 +212,7 @@ $entriesUl.addEventListener('click', (event: Event) => {
       if (`${entry.entryId}` === $closestLi?.dataset.entryId) {
         data.editing = entry;
         const $formElements = $entryForm.elements as FormElements;
+        $photoPreview.setAttribute('src', data.editing.photo_url);
         $formElements.title.value = data.editing.title;
         $formElements.photo_url.value = data.editing.photo_url;
         $formElements.notes.value = data.editing.notes;
