@@ -134,38 +134,34 @@ $entryForm.addEventListener('submit', (event: Event) => {
   event.preventDefault();
   const $formElements = $entryForm.elements as FormElements;
 
+  const entryObj: Entry = {
+    title: $formElements.title.value,
+    photo_url: $formElements.photo_url.value,
+    notes: $formElements.notes.value,
+    tags: $formElements.tags.value.split(' '),
+    entryId: 0,
+  };
+
   if (data.editing === null) {
-    const newEntryObj: Entry = {
-      title: $formElements.title.value,
-      photo_url: $formElements.photo_url.value,
-      notes: $formElements.notes.value,
-      entryId: data.nextEntryId,
-      tags: $formElements.tags.value.split(' '),
-    };
+    entryObj.entryId = data.nextEntryId;
     data.nextEntryId++;
-    data.entries.unshift(newEntryObj);
+    data.entries.unshift(entryObj);
     $photoPreview.setAttribute('src', 'images/placeholder-image-square.jpg');
-    $entriesUl.prepend(renderEntry(newEntryObj));
+    $entriesUl.prepend(renderEntry(entryObj));
   }
 
   if (data.editing !== null) {
-    const editEntryObj: Entry = {
-      title: $formElements.title.value,
-      photo_url: $formElements.photo_url.value,
-      notes: $formElements.notes.value,
-      entryId: data.editing.entryId,
-      tags: $formElements.tags.value.split(' '),
-    };
+    entryObj.entryId = data.editing.entryId;
     for (const key in data.entries) {
-      if (data.entries[key].entryId === editEntryObj.entryId) {
-        data.entries[key] = editEntryObj;
+      if (data.entries[key].entryId === entryObj.entryId) {
+        data.entries[key] = entryObj;
         break;
       }
     }
     const $oldLi = document.querySelector(
-      `[data-entry-id="${editEntryObj.entryId}"]`,
+      `[data-entry-id="${entryObj.entryId}"]`,
     ) as HTMLElement;
-    const $newLi = renderEntry(editEntryObj);
+    const $newLi = renderEntry(entryObj);
     $entriesUl.replaceChild($newLi, $oldLi);
     $entryFormTitle.textContent = 'New Entry';
     data.editing = null;
