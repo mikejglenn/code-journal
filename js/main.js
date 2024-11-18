@@ -177,7 +177,7 @@ $entriesUl.addEventListener('click', (event) => {
         $formElements.notes.value = data.editing.notes;
         $formElements.tags.value = data.editing.tags.join(' ');
         $entryFormTitle.textContent = 'Edit Entry';
-        break;
+        return;
       }
     }
   }
@@ -202,7 +202,7 @@ $confirmModal.addEventListener('click', () => {
       $dialog.close();
       data.editing = null;
       viewSwap('entries');
-      break;
+      return;
     }
   }
 });
